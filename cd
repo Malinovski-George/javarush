@@ -1,0 +1,178 @@
+[33mcommit 11448e31558446c09aba199396e3e956e01488e4[m
+Author: George Malinovski <MalinovskiGeorge@gmail.com>
+Date:   Sat Apr 15 11:23:33 2017 +0200
+
+    3111
+
+[1mdiff --git a/4.JavaCollections/src/com/javarush/task/task31/task3111/SearchFileVisitor.java b/4.JavaCollections/src/com/javarush/task/task31/task3111/SearchFileVisitor.java[m
+[1mindex 380b94d..be555cb 100644[m
+[1m--- a/4.JavaCollections/src/com/javarush/task/task31/task3111/SearchFileVisitor.java[m
+[1m+++ b/4.JavaCollections/src/com/javarush/task/task31/task3111/SearchFileVisitor.java[m
+[36m@@ -12,4 +12,12 @@[m [mpublic class SearchFileVisitor extends SimpleFileVisitor<Path> {[m
+     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {[m
+         return super.visitFile(file, attrs);[m
+     }[m
+[32m+[m
+[32m+[m[32m    public void setPartOfName(String partOfName) {[m
+[32m+[m[32m        this.partOfName = partOfName;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public void setMinSize(int minSize) {[m
+[32m+[m[32m        this.minSize = minSize;[m
+[32m+[m[32m    }[m
+ }[m
+
+[33mcommit e1a279f1a4e7fb1a68ad1a4a9ec22e70e273d0e4[m
+Author: George Malinovski <MalinovskiGeorge@gmail.com>
+Date:   Sat Apr 15 11:13:33 2017 +0200
+
+    commit
+
+[1mdiff --git a/4.JavaCollections/src/com/javarush/task/task20/task2028/CustomTree.java b/4.JavaCollections/src/com/javarush/task/task20/task2028/CustomTree.java[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1c9d2a8[m
+[1m--- /dev/null[m
+[1m+++ b/4.JavaCollections/src/com/javarush/task/task20/task2028/CustomTree.java[m
+[36m@@ -0,0 +1,18 @@[m
+[32m+[m[32mpackage com.javarush.task.task20.task2028;[m
+[32m+[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m
+[32m+[m[32m/*[m[41m [m
+[32m+[m[32mПострой дерево(1)[m
+[32m+[m[32m*/[m
+[32m+[m[32mpublic class CustomTree {[m
+[32m+[m[32m    public static void main(String[] args) {[m
+[32m+[m[32m        List<String> list = new CustomTree();[m
+[32m+[m[32m        for (int i = 1; i < 16; i++) {[m
+[32m+[m[32m            list.add(String.valueOf(i));[m
+[32m+[m[32m        }[m
+[32m+[m[32m        //System.out.println("Expected 3, actual is " + ((CustomTree) list).getParent("8"));[m
+[32m+[m[32m        list.remove("5");[m
+[32m+[m[32m        //System.out.println("Expected null, actual is " + ((CustomTree) list).getParent("11"));[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git "a/4.JavaCollections/src/com/javarush/task/task20/task2028/\320\243\321\201\320\273\320\276\320\262\320\270\320\265.jrtc" "b/4.JavaCollections/src/com/javarush/task/task20/task2028/\320\243\321\201\320\273\320\276\320\262\320\270\320\265.jrtc"[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4f34687[m
+[1m--- /dev/null[m
+[1m+++ "b/4.JavaCollections/src/com/javarush/task/task20/task2028/\320\243\321\201\320\273\320\276\320\262\320\270\320\265.jrtc"[m
+[36m@@ -0,0 +1,23 @@[m
+[32m+[m[32mtaskKey="com.javarush.task.task20.task2028.big01"[m
+[32m+[m
+[32m+[m[32mПострой дерево(1)[m
+[32m+[m
+[32m+[m[32mАмиго, похоже ты уже достаточно окреп. Самое время проверить свои навыки в большой задаче![m
+[32m+[m[32mСегодня реализуем свое дерево немного нестандартным способом(на базе AbstractList).[m
+[32m+[m[32mВводную информацию можешь получить используя свой любимый поисковик и текст ниже.[m
+[32m+[m
+[32m+[m[32mЭлементы дерева должны следовать так как показано на картинке:[m
+[32m+[m[32mhttp://info.javarush.ru/uploads/images/00/04/89/2014/03/21/ee9a9b.jpg[m
+[32m+[m
+[32m+[m[32mДля начала сделаем наше дерево потомком класса AbstractList с параметром типа String, а также[m
+[32m+[m[32mреализуем интерфейсы Cloneable и Serializable.[m
+[32m+[m
+[32m+[m[32mРеализацию методов get(int index) и size() пока оставь стандартной.[m
+[32m+[m
+[32m+[m
+[32m+[m[32mТребования:[m
+[32m+[m[32m1.	Класс CustomTree должен поддерживать интерфейс Cloneable.[m
+[32m+[m[32m2.	Класс CustomTree должен поддерживать интерфейс Serializable.[m
+[32m+[m[32m3.	Класс CustomTree должен быть потомком класса AbstractList.[m
+[32m+[m
+[32m+[m
+[1mdiff --git a/4.JavaCollections/src/com/javarush/task/task31/task3111/SearchFileVisitor.java b/4.JavaCollections/src/com/javarush/task/task31/task3111/SearchFileVisitor.java[m
+[1mnew file mode 100644[m
+[1mindex 0000000..380b94d[m
+[1m--- /dev/null[m
+[1m+++ b/4.JavaCollections/src/com/javarush/task/task31/task3111/SearchFileVisitor.java[m
+[36m@@ -0,0 +1,15 @@[m
+[32m+[m[32mpackage com.javarush.task.task31.task3111;[m
+[32m+[m
+[32m+[m[32mimport java.io.IOException;[m
+[32m+[m[32mimport java.nio.file.FileVisitResult;[m
+[32m+[m[32mimport java.nio.file.Path;[m
+[32m+[m[32mimport java.nio.file.SimpleFileVisitor;[m
+[32m+[m[32mimport java.nio.file.attribute.BasicFileAttributes;[m
+[32m+[m
+[32m+[m[32mpublic class SearchFileVisitor extends SimpleFileVisitor<Path> {[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {[m
+[32m+[m[32m        return super.visitFile(file, attrs);[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/4.JavaCollections/src/com/javarush/task/task31/task3111/Solution.java b/4.JavaCollections/src/com/javarush/task/task31/task3111/Solution.java[m
+[1mnew file mode 100644[m
+[1mindex 0000000..6517e00[m
+[1m--- /dev/null[m
+[1m+++ b/4.JavaCollections/src/com/javarush/task/task31/task3111/Solution.java[m
+[36m@@ -0,0 +1,30 @@[m
+[32m+[m[32mpackage com.javarush.task.task31.task3111;[m
+[32m+[m
+[32m+[m[32mimport java.io.IOException;[m
+[32m+[m[32mimport java.nio.file.Files;[m
+[32m+[m[32mimport java.nio.file.Path;[m
+[32m+[m[32mimport java.nio.file.Paths;[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m
+[32m+[m[32m/*[m[41m [m
+[32m+[m[32mПродвинутый поиск файлов[m
+[32m+[m[32m*/[m
+[32m+[m[32mpublic class Solution {[m
+[32m+[m
+[32m+[m[32m    public static void main(String[] args) throws IOException {[m
+[32m+[m[32m        SearchFileVisitor searchFileVisitor = new SearchFileVisitor();[m
+[32m+[m
+[32m+[m[32m        searchFileVisitor.setPartOfName("amigo");[m
+[32m+[m[32m        searchFileVisitor.setPartOfContent("programmer");[m
+[32m+[m[32m        searchFileVisitor.setMinSize(500);[m
+[32m+[m[32m        searchFileVisitor.setMaxSize(10000);[m
+[32m+[m
+[32m+[m[32m        Files.walkFileTree(Paths.get("D:/SecretFolder"), searchFileVisitor);[m
+[32m+[m
+[32m+[m[32m        List<Path> foundFiles = searchFileVisitor.getFoundFiles();[m
+[32m+[m[32m        for (Path file : foundFiles) {[m
+[32m+[m[32m            System.out.println(file);[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m}[m
+[1mdiff --git "a/4.JavaCollections/src/com/javarush/task/task31/task3111/\320\243\321\201\320\273\320\276\320\262\320\270\320\265.jrtc" "b/4.JavaCollections/src/com/javarush/task/task31/task3111/\320\243\321\201\320\273\320\276\320\262\320\270\320\265.jrtc"[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f070a56[m
+[1m--- /dev/null[m
+[1m+++ "b/4.JavaCollections/src/com/javarush/task/task31/task3111/\320\243\321\201\320\273\320\276\320\262\320\270\320\265.jrtc"[m
+[36m@@ -0,0 +1,32 @@[m
+[32m+[m[32mtaskKey="com.javarush.task.task31.task3111"[m
+[32m+[m
+[32m+[m[32mПродвинутый поиск файлов[m
+[32m+[m
+[32m+[m[32mДавай реализуем настраиваемый поиск файлов в директории.[m
+[32m+[m[32mПросмотри интерфейс java.nio.file.FileVisitor и его базовую реализацию java.nio.file.SimpleFileVisitor.[m
+[32m+[m[32mВо время поиска по дереву файлов с помощью метода Files.walkFileTree(Path start, FileVisitor<? super Path> visitor)[m
+[32m+[m[32mмы используем объект FileVisitor для выполнения необходимых операций над найденными объектами Path.[m
+[32m+[m
+[32m+[m[32mНаш класс для поиска будет называться SearchFileVisitor и расширять SimpleFileVisitor.[m
+[32m+[m
+[32m+[m[32mПоиск можно будет выполнять по таким критериям:[m
+[32m+[m[32m- выражение, встречающееся в названии файла (String);[m
+[32m+[m[32m- выражение, встречающееся в содержимом файла (String);[m
+[32m+[m[32m- максимальный и минимальный размер файла (int).[m
+[32m+[m[32mМожно задавать либо один, либо сразу несколько критериев для поиска.[m
+[32m+[m
+[32m+[m[32mЯ в main написал код, который использует готовый SearchFileVisitor для поиска файлов, тебе осталась совсем легкая задача - выполнить его реализацию.[m
+[32m+[m[32mПодсказка 1: методы get... , set... - это геттеры и сеттеры полей. Основная логика класса по поиску выполняется в методе visitFile(Path file, BasicFileAttributes attrs).[m
+[32m+[m[32mПодсказка 2: для работы с файлами используй только классы из пакета java.nio.[m
+[32m+[m
+[32m+[m
+[32m+[m[32mТребования:[m
+[32m+[m[32m1.	В классе SearchFileVisitor нужно создать поля partOfName, partOfContent, minSize, maxSize и сеттеры для них.[m
+[32m+[m[32m2.	В классе SearchFileVisitor нужно создать поле foundFiles и геттер для него. Поле должно быть сразу инициализировано.[m
+[32m+[m[32m3.	Если в SearchFileVisitor задан критерий поиска partOfName, метод visitFile должен добавить файл в foundFiles, если в названии содержится строка partOfName.[m
+[32m+[m[32m4.	Если в SearchFileVisitor задан критерий поиска partOfContent, метод visitFile должен добавить файл в foundFiles, если в содержимом встречается строка partOfContent.[m
+[32m+[m[32m5.	Если в SearchFileVisitor задан критерий поиска maxSize, метод visitFile должен добавить файл в foundFiles, если размер файла меньше maxSize.[m
+[32m+[m[32m6.	Если в SearchFileVisitor задан критерий поиска minSize, метод visitFile должен добавить файл в foundFiles, если размер файла больше maxSize.[m
+[32m+[m[32m7.	Метод visitFile должен быть реализован так, чтобы учитывать сразу несколько критериев поиска.[m
+[32m+[m
+[32m+[m
