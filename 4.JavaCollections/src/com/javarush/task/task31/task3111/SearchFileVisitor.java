@@ -12,4 +12,12 @@ public class SearchFileVisitor extends SimpleFileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         return super.visitFile(file, attrs);
     }
+
+    public void setPartOfName(String partOfName) {
+        this.partOfName = partOfName;
+    }
+
+    public void setMinSize(int minSize) {
+        this.minSize = minSize;
+    }
 }
