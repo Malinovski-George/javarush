@@ -40,8 +40,10 @@ public class Solution {
     public static Path downloadFile(String urlString, Path downloadDirectory) throws IOException {
         URL url = new URL(urlString);
         InputStream inputStream = url.openStream();
+
         Path tempFile = Files.createTempFile("temp-", ".tmp");
         Files.copy(inputStream, tempFile);
+
         String fileName = urlString.substring(urlString.lastIndexOf("/") + 1);
         Path target = Paths.get(downloadDirectory + "/" + fileName);
         Files.move(tempFile, target);
