@@ -1,7 +1,5 @@
 package lesson2.main;
 
-import com.mysql.fabric.jdbc.FabricMySQLDriver;
-
 import java.sql.*;
 
 /**
@@ -17,11 +15,11 @@ public class Main {
         Connection conn;
 
         try {
-           // Driver driver = new FabricMySQLDriver();
-           // DriverManager.registerDriver(driver);
+            // Driver driver = new FabricMySQLDriver();
+            // DriverManager.registerDriver(driver);
             conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            /* Statement statement = conn.createStatement();
-             int res =   statement.executeUpdate("update animal set anim_name = 'Duck' where id = 2;");
+            Statement statement = conn.createStatement();
+            /* int res =   statement.executeUpdate("update animal set anim_name = 'Duck' where id = 2;");
             statement.addBatch("insert into animal(anim_name, anim_desc) values ('batch1','desc')");
             statement.addBatch("insert into animal(anim_name, anim_desc) values ('batch2','desc')");
             statement.addBatch("insert into animal(anim_name, anim_desc) values ('batch3','desc')");
@@ -47,6 +45,16 @@ public class Main {
                 e.printStackTrace();
             }*/
                 preparedStatement.executeUpdate();
+
+                ResultSet rs = null;
+                rs = statement.executeQuery("SELECT * FROM users");
+
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    System.out.println(id + " - id, " + name);
+                }
+
             }
             if (!conn.isClosed()) {
                 System.out.println("УРА!! Соединение с БД установлено!!");
