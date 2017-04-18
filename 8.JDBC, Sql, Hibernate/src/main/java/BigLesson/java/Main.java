@@ -26,18 +26,17 @@ public final class Main {
             printAll(statement);
             updateDB(statement);
 
-
             insertRandom(statement);
-
 
             preparedStatement = conn.prepareStatement("SELECT * FROM employees WHERE NAME LIKE ? ORDER BY ID");
             printAllAsPartOfName(preparedStatement, "ов");
 
            /* updateSomething(statement);
             printAll(statement);
-*/
+            */
+
             deleteSomethingById(statement, 5);
-            printAndSortRandom(statement);
+            printAndSortAlias(statement);
 
             printAll(statement);
 
@@ -55,7 +54,7 @@ public final class Main {
         }
     }
 
-    private static void printAndSortRandom(Statement statement) throws SQLException {
+    private static void printAndSortAlias(Statement statement) throws SQLException {
 
         ResultSet rs = null;
         try {
@@ -65,6 +64,37 @@ public final class Main {
                     "  -- слово AS не обязательно\n" +
                     "    Salary ZP\n" +
                     "    FROM Employees");
+
+
+            /*SELECT ID,Name,Salary
+            FROM Employees
+            WHERE PositionID<>3 AND/OR PositionID<>4
+            */
+
+           /* SELECT ID,Name,Salary
+            FROM Employees
+            WHERE Salary BETWEEN 2000 AND 3000 -- у кого ЗП в диапазоне 2000-3000
+            AND DepartmentID=3
+            */
+
+           /* SELECT
+                    ID,Name,Salary,
+
+                    CASE
+            WHEN Salary>=3000 THEN 'ЗП >= 3000'
+            WHEN Salary>=2000 THEN '2000 <= ЗП < 3000'
+            ELSE 'ЗП < 2000'
+            END SalaryTypeWithELSE,
+
+                    CASE
+            WHEN Salary>=3000 THEN 'ЗП >= 3000'
+            WHEN Salary>=2000 THEN '2000 <= ЗП < 3000'
+            END SalaryTypeWithoutELSE
+
+            FROM Employees
+            */
+
+
 
             while (rs.next()) {
                 String nameFull = rs.getString("FullName");
@@ -83,7 +113,9 @@ public final class Main {
     private static void insertRandom(Statement statement) throws SQLException {
 
         statement.execute("INSERT into Employees(Name,Email) VALUES(N'Сергеев С.С.','s.sergeev@test.tt');");
-        System.out.println("insert");
+        statement.execute("INSERT into Employees(Name,Email,PositionID,DepartmentID,ManagerID,Salary)\n" +
+                "VALUES(N'Александров А.А.','a.alexandrov@test.tt',NULL,NULL,1000,2000)");
+
     }
 
     private static void createTables(Statement statement) throws SQLException {
