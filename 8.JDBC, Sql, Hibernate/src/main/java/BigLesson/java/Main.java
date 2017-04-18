@@ -1,7 +1,5 @@
 package BigLesson.java;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-
 import java.sql.*;
 
 public final class Main {
@@ -23,14 +21,28 @@ public final class Main {
         PreparedStatement preparedStatement = null;
         try {
             statement = conn.createStatement();
-
             System.out.println("Start of test plan.");
-
+            statement.execute("drop table if exists test.employees");
             createTables(statement);
             insertSomething(statement);
-
             printAll(statement);
 
+            preparedStatement = conn.prepareStatement("SELECT * FROM employees WHERE NAME LIKE ? ORDER BY ID");
+            printAllAsPartOfName(preparedStatement, "ов");
+
+
+
+
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
 
 
         }
@@ -39,14 +51,14 @@ public final class Main {
     private static void createTables(Statement statement) throws SQLException {
         // String sttm =  "CREATE TABLE Positions(ID int IDENTITY(1,1) NOT NULL CONSTRAINT PK_Positions PRIMARY KEY, Name nvarchar(30) NOT NULL";
 
-       String sttm = "CREATE TABLE IF NOT EXISTS test.employees (" +
-               "id INT NOT NULL AUTO_INCREMENT, " +
-               "name VARCHAR(45) NOT NULL, " +
-               "email VARCHAR(45) NULL UNIQUE, " +
-               "PositionID VARCHAR(45) NULL, " +
-               "DepartmentID VARCHAR(45) NULL, " +
-               "HireDate DATETIME NOT NULL DEFAULT now(), " +
-               "PRIMARY KEY (id)) ";
+        String sttm = "CREATE TABLE IF NOT EXISTS test.employees (" +
+                "id INT NOT NULL AUTO_INCREMENT, " +
+                "name VARCHAR(45) NOT NULL, " +
+                "email VARCHAR(45) NULL UNIQUE, " +
+                "PositionID VARCHAR(45) NULL, " +
+                "DepartmentID VARCHAR(45) NULL, " +
+                "HireDate DATETIME NOT NULL DEFAULT now(), " +
+                "PRIMARY KEY (id)) ";
 
         statement.execute(sttm);
         statement.execute("use test");
@@ -84,6 +96,30 @@ public final class Main {
 
 
 
+
+
+
+
+    private static void printAllAsPartOfName(PreparedStatement statement, String partOfName) throws SQLException {
+        ResultSet rs = null;
+        try {
+            String request = "%" + partOfName + "%";
+            statement.setString(1, request);
+            rs = statement.executeQuery();
+
+            System.out.println("Persons whose name contains " + request + ":");
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String name = rs.getString("NAME");
+                System.out.println(id + ": " + name);
+            }
+            System.out.println();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+    }
 
 
 }
