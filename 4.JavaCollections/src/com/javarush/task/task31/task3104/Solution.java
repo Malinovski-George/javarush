@@ -53,7 +53,7 @@ public class Solution extends SimpleFileVisitor<Path> {
                 String prefix = fileName.substring(fileName.lastIndexOf(".")+1);
         if (prefix.equals("rar") || prefix.equals("zip")){
 
-            archived.add(Paths.)
+          //  archived.add(Paths.)
 
         }
 
