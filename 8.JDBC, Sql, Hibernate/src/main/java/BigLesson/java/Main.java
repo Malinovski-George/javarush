@@ -10,9 +10,7 @@ public final class Main {
 
     public static void main(String[] args) throws Exception {
         Class.forName("com.mysql.jdbc.Driver");
-
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
         testPlan(conn);
     }
 
@@ -26,6 +24,11 @@ public final class Main {
             createTables(statement);
             insertSomething(statement);
             printAll(statement);
+            updateDB(statement);
+
+
+            insertRandom(statement);
+
 
             preparedStatement = conn.prepareStatement("SELECT * FROM employees WHERE NAME LIKE ? ORDER BY ID");
             printAllAsPartOfName(preparedStatement, "ов");
@@ -33,7 +36,9 @@ public final class Main {
            /* updateSomething(statement);
             printAll(statement);
 */
-            deleteSomethingById(statement, 2);
+            deleteSomethingById(statement, 5);
+            printAndSortRandom(statement);
+
             printAll(statement);
 
         } finally {
@@ -48,6 +53,37 @@ public final class Main {
             }
 
         }
+    }
+
+    private static void printAndSortRandom(Statement statement) throws SQLException {
+
+        ResultSet rs = null;
+        try {
+            rs = statement.executeQuery("SELECT\n" +
+                    "CONCAT(IFNULL(LastName,''),' ',IFNULL(FirstName,''),' ',IFNULL(MiddleName,'')) FullName,\n" +
+                    "HireDate AS 'Дата приема',\n" +
+                    "  -- слово AS не обязательно\n" +
+                    "    Salary ZP\n" +
+                    "    FROM Employees");
+
+            while (rs.next()) {
+                String nameFull = rs.getString("FullName");
+                Date date = rs.getDate("Дата приема");
+                String salary = rs.getString("ZP");
+
+                System.out.println("FullName: " + nameFull + ", date: " + date + ", Salary: " + salary);
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+    }
+
+    private static void insertRandom(Statement statement) throws SQLException {
+
+        statement.execute("INSERT into Employees(Name,Email) VALUES(N'Сергеев С.С.','s.sergeev@test.tt');");
+        System.out.println("insert");
     }
 
     private static void createTables(Statement statement) throws SQLException {
@@ -123,14 +159,48 @@ public final class Main {
         System.out.printf("%d rows updated.\n" , rowsUpdated);
     }*/
 
+
+    private static void updateDB(Statement statement) throws SQLException {
+        statement.executeUpdate("ALTER TABLE Employees ADD" +
+                "  (LastName varchar(30), -- фамилия\n" +
+                "  FirstName varchar(30), -- имя\n" +
+                "  MiddleName varchar(30), -- отчество\n" +
+                "  Salary float, -- и конечно же ЗП в каких-то УЕ\n" +
+                "  BonusPercent float)");
+
+        statement.addBatch("UPDATE employees\n" +
+                "SET \n" +
+                "LastName=N'Иванов',FirstName=N'Иван',MiddleName=N'Иванович',\n" +
+                "Salary=5000,BonusPercent= 50\n" +
+                "WHERE ID=1; -- Иванов И.И.");
+
+        statement.addBatch("UPDATE employees\n" +
+                "SET\n" +
+                "  LastName=N'Петров',FirstName=N'Петр',MiddleName=N'Петрович',\n" +
+                "  Salary=1500,BonusPercent= 15\n" +
+                "WHERE ID=2;");
+
+        statement.addBatch("UPDATE Employees\n" +
+                "SET\n" +
+                "  LastName=N'Сидоров',FirstName=N'Сидор',MiddleName=NULL,\n" +
+                "  Salary=2500,BonusPercent=NULL\n" +
+                "WHERE ID=3;");
+
+        statement.addBatch("UPDATE Employees\n" +
+                "SET\n" +
+                "  LastName=N'Андреев',FirstName=N'Андрей',MiddleName=NULL,\n" +
+                "  Salary=2000,BonusPercent= 30\n" +
+                "WHERE ID=4; ");
+        statement.executeBatch();
+    }
+
+
     private static void deleteSomethingById(Statement statement, int id) throws SQLException {
         System.out.println("Delete all person who id = " + id);
         int rowsDeleted = statement.executeUpdate("DELETE FROM employees WHERE id = " + id + ";");
         System.out.printf("%d rows deleted.\n" , rowsDeleted);
         System.out.println("---------result----------");
     }
-
-
 
 
 }
