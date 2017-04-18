@@ -118,8 +118,8 @@ public final class Main {
     }
 
     /*private static void updateSomething(Statement statement) throws SQLException {
-        System.out.println("Change all Mashas to Natashas");
-        int rowsUpdated = statement.executeUpdate("UPDATE PERSON SET NAME='Natasha' WHERE NAME='Masha';");
+        System.out.println("Change all ** to *");
+        int rowsUpdated = statement.executeUpdate("UPDATE employees SET NAME='***' WHERE NAME='***';");
         System.out.printf("%d rows updated.\n" , rowsUpdated);
     }*/
 
