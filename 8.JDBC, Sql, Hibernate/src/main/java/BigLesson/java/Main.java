@@ -21,8 +21,11 @@ public final class Main {
             statement = conn.createStatement();
             System.out.println("Start of test plan.");
             statement.execute("drop table if exists test.employees");
+            statement.execute("drop table if exists test.Departments");
+            statement.execute("drop table if exists test.Positions");
             createTables(statement);
             insertSomething(statement);
+            createDependence(statement);
             printAll(statement);
             updateDB(statement);
 
@@ -52,6 +55,25 @@ public final class Main {
             }
 
         }
+    }
+
+    private static void createDependence(Statement statement) throws SQLException {
+
+        statement.execute("ALTER TABLE Employees ADD CONSTRAINT FK_Employees_PositionID\n" +
+                "FOREIGN KEY(PositionID) REFERENCES Positions(ID)");
+
+
+       statement.execute("ALTER TABLE Employees ADD CONSTRAINT FK_Employees_DepartmentID\n" +
+                "FOREIGN KEY(DepartmentID) REFERENCES Departments(ID)\n");
+
+
+        statement.executeUpdate("UPDATE Employees e\n" +
+                "SET\n" +
+                "  PositionID=(SELECT ID FROM Positions WHERE Name=e.Position),\n" +
+                "  DepartmentID=(SELECT ID FROM Departments WHERE Name=e.Department)\n"
+                );
+      //  statement.execute();
+
     }
 
     private static void printAndSortAlias(Statement statement) throws SQLException {
@@ -94,7 +116,63 @@ public final class Main {
             FROM Employees
             */
 
+            /*SELECT
+                    ID,Name,Salary,DepartmentID,
+            -- для наглядности выведем процент в виде строки
+            CASE DepartmentID -- проверяемое значение
+            WHEN 2 THEN '10%' -- 10% от ЗП выдать Бухгалтерам
+            WHEN 3 THEN '15%' -- 15% от ЗП выдать ИТ-шникам
+            ELSE '5%' -- всем остальным по 5%
+                    END NewYearBonusPercent,
 
+                    -- построим выражение с использованием CASE, чтобы увидеть сумму бонуса
+            Salary/100*
+                    CASE DepartmentID
+            WHEN 2 THEN 10 -- 10% от ЗП выдать Бухгалтерам
+            WHEN 3 THEN 15 -- 15% от ЗП выдать ИТ-шникам
+            ELSE 5 -- всем остальным по 5%
+                    END BonusAmount
+
+            FROM Employees
+            */
+
+           /* IF(Salary>=2500,'ЗП >= 2500','ЗП < 2500') DemoIIF
+            */
+
+            /*SELECT
+            'столбец информации' Info,
+                    COUNT(*) ,
+            COUNT(DISTINCT DepartmentID) AS 'Число уникальных отделов',
+                    COUNT(DISTINCT PositionID) AS 'Число уникальных должностей',
+                    COUNT(BonusPercent) AS 'Кол-во сотрудников у которых указан % бонуса',
+                    MAX(BonusPercent) AS 'Максимальный процент бонуса',
+                    MIN(BonusPercent) AS 'Минимальный процент бонуса',
+                    SUM(Salary/100*BonusPercent) AS 'Сумма всех бонусов',
+                    AVG(Salary/100*BonusPercent) AS 'Средний размер бонуса',
+                    AVG(Salary) AS 'Средний размер ЗП'
+            FROM Employees
+            */
+
+
+            /*SELECT
+            'Строка константа' Const1, -- константа в виде строки
+            1 Const2, -- константа в виде числа
+
+                    -- выражение с использованием полей участвуещих в группировке
+            CONCAT('Отдел № ',DepartmentID) ConstAndGroupField,
+                    CONCAT('Отдел № ',DepartmentID,', Должность № ',PositionID) ConstAndGroupFields,
+
+                    DepartmentID, -- поле из списка полей участвующих в группировке
+            -- PositionID, -- поле учавствующее в группировке, не обязательно дублировать здесь
+
+            COUNT(*) EmplCount, -- кол-во строк в каждой группе
+
+            -- остальные поля можно использовать только с агрегатными функциями: COUNT, SUM, MIN, MAX, …
+            SUM(Salary) SalaryAmount,
+                    MIN(ID) MinID
+            FROM Employees
+            GROUP BY DepartmentID,PositionID -- группировка по полям DepartmentID,PositionID
+            */
 
             while (rs.next()) {
                 String nameFull = rs.getString("FullName");
@@ -113,36 +191,85 @@ public final class Main {
     private static void insertRandom(Statement statement) throws SQLException {
 
         statement.execute("INSERT into Employees(Name,Email) VALUES(N'Сергеев С.С.','s.sergeev@test.tt');");
-        statement.execute("INSERT into Employees(Name,Email,PositionID,DepartmentID,ManagerID,Salary)\n" +
-                "VALUES(N'Александров А.А.','a.alexandrov@test.tt',NULL,NULL,1000,2000)");
+        statement.execute("INSERT into Employees(Name,Email,PositionID,DepartmentID,Salary)\n" +
+                "VALUES(N'Александров А.А.','a.alexandrov@test.tt',NULL,NULL,2000)");
 
     }
 
     private static void createTables(Statement statement) throws SQLException {
         // String sttm =  "CREATE TABLE Positions(ID int IDENTITY(1,1) NOT NULL CONSTRAINT PK_Positions PRIMARY KEY, Name nvarchar(30) NOT NULL";
+        statement.execute("use test");
+
+        statement.execute("CREATE TABLE Positions(\n" +
+                "  ID int UNIQUE NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
+                "  Name varchar(30) NOT NULL\n" +
+                ")");
+        statement.execute("CREATE TABLE Departments(\n" +
+                "  ID int UNIQUE NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
+                "  Name nvarchar(30) NOT NULL\n" +
+                ")");
+
 
         String sttm = "CREATE TABLE IF NOT EXISTS test.employees (" +
                 "id INT NOT NULL AUTO_INCREMENT, " +
                 "name VARCHAR(45) NOT NULL, " +
                 "email VARCHAR(45) NULL UNIQUE, " +
-                "PositionID VARCHAR(45) NULL, " +
-                "DepartmentID VARCHAR(45) NULL, " +
+                "PositionID int, " +
+                "DepartmentID int, " +
                 "HireDate DATETIME NOT NULL DEFAULT now(), " +
-                "PRIMARY KEY (id)) ";
+                "ManagerID int, " +
+                " Position nvarchar(30)," +
+                "Department nvarchar(30)," +
+                "PRIMARY KEY (id))";
+
+         /*       "CONSTRAINT FOREIGN KEY(DepartmentID) REFERENCES test.Departments(ID),\n" +
+                "CONSTRAINT FOREIGN KEY(PositionID) REFERENCES test.Positions(ID),\n" +
+                "CONSTRAINT FOREIGN KEY (ManagerID) REFERENCES test.Employees(ID))";
+        */
+
+       /* String sttm = "CREATE TABLE Employees(\n" +
+                "  ID int NOT NULL AUTO_INCREMENT,\n" +
+                "  Name varchar(30),\n" +
+
+                "  Email varchar(30),\n" +
+                "  PositionID int,\n" +
+                "  DepartmentID int,\n" +
+
+                "  ManagerID int,\n" +
+                "CONSTRAINT PK_Employees PRIMARY KEY (ID),\n" +
+                "CONSTRAINT FK_Employees_DepartmentID FOREIGN KEY(DepartmentID) REFERENCES Departments(ID),\n" +
+                "CONSTRAINT FK_Employees_PositionID FOREIGN KEY(PositionID) REFERENCES Positions(ID),\n" +
+                "CONSTRAINT FK_Employees_ManagerID FOREIGN KEY (ManagerID) REFERENCES Employees(ID),\n" +
+                "CONSTRAINT UQ_Employees_Email UNIQUE(Email),\n" +
+                "CONSTRAINT CK_Employees_ID CHECK(ID BETWEEN 1000 AND 1999),\n" +
+                "INDEX IDX_Employees_Name(Name)\n" +
+                ")";
+*/
 
         statement.execute(sttm);
-        statement.execute("use test");
+
 
         System.out.println("таблица создана");
     }
 
     private static void insertSomething(Statement statement) throws SQLException {
 
-        statement.execute("INSERT into Employees (Name,Email,PositionID,DepartmentID) VALUES\n" +
-                "(N'Иванов И.И.','i.ivanov@test.tt',2,1),\n" +
-                "(N'Петров П.П.','p.petrov@test.tt',3,3),\n" +
-                "(N'Сидоров С.С.','s.sidorov@test.tt',1,2),\n" +
-                "(N'Андреев А.А.','a.andreev@test.tt',4,3);");
+        statement.execute("INSERT into Employees (Name,Email,PositionID,DepartmentID,Position,Department) VALUES\n" +
+                "(N'Иванов И.И.','i.ivanov@test.tt',2,1,'Директор','Администрация'),\n" +
+                "(N'Петров П.П.','p.petrov@test.tt',3,3,'Программист','ИТ'),\n" +
+                "(N'Сидоров С.С.','s.sidorov@test.tt',1,2,'Бухгалтер',N'Бухгалтерия'),\n" +
+                "(N'Андреев А.А.','a.andreev@test.tt',4,3,'Старший программист',N'ИТ');");
+
+        statement.execute("INSERT INTO  Positions(Name)\n" +
+                "                SELECT DISTINCT Position\n" +
+                "        FROM Employees\n" +
+                "        WHERE Position IS NOT NULL -- отбрасываем записи у которых позиция не указана");
+
+        statement.execute("INSERT INTO Departments(Name)\n" +
+                "                SELECT DISTINCT Department\n" +
+                "        FROM Employees\n" +
+                "        WHERE Department IS NOT NULL");
+
 
         System.out.println("данные добавлены, инициализация прошла успешно");
     }
