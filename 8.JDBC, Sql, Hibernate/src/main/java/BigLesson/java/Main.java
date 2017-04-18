@@ -30,8 +30,11 @@ public final class Main {
             preparedStatement = conn.prepareStatement("SELECT * FROM employees WHERE NAME LIKE ? ORDER BY ID");
             printAllAsPartOfName(preparedStatement, "ов");
 
-
-
+           /* updateSomething(statement);
+            printAll(statement);
+*/
+            deleteSomethingById(statement, 2);
+            printAll(statement);
 
         } finally {
             if (statement != null) {
@@ -43,7 +46,6 @@ public final class Main {
             if (conn != null) {
                 conn.close();
             }
-
 
         }
     }
@@ -94,12 +96,6 @@ public final class Main {
         }
     }
 
-
-
-
-
-
-
     private static void printAllAsPartOfName(PreparedStatement statement, String partOfName) throws SQLException {
         ResultSet rs = null;
         try {
@@ -120,6 +116,21 @@ public final class Main {
             }
         }
     }
+
+    /*private static void updateSomething(Statement statement) throws SQLException {
+        System.out.println("Change all Mashas to Natashas");
+        int rowsUpdated = statement.executeUpdate("UPDATE PERSON SET NAME='Natasha' WHERE NAME='Masha';");
+        System.out.printf("%d rows updated.\n" , rowsUpdated);
+    }*/
+
+    private static void deleteSomethingById(Statement statement, int id) throws SQLException {
+        System.out.println("Delete all person who id = " + id);
+        int rowsDeleted = statement.executeUpdate("DELETE FROM employees WHERE id = " + id + ";");
+        System.out.printf("%d rows deleted.\n" , rowsDeleted);
+        System.out.println("---------result----------");
+    }
+
+
 
 
 }
