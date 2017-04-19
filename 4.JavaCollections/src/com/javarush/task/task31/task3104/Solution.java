@@ -1,7 +1,5 @@
 package com.javarush.task.task31.task3104;
 
-import javax.script.SimpleScriptContext;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -48,19 +46,22 @@ public class Solution extends SimpleFileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-
         String fileName = file.getFileName().toString();
-                String prefix = fileName.substring(fileName.lastIndexOf(".")+1);
-        if (prefix.equals("rar") || prefix.equals("zip")){
+        String prefix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (prefix.equals("rar") || prefix.equals("zip")) {
 
-          //  archived.add(Paths.)
-
+            archived.add(String.valueOf(file));
         }
-
-
-
-
         return FileVisitResult.CONTINUE;
+    }
+
+
+    @Override
+    public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+        if (!Files.isReadable(file)) {
+            failed.add(String.valueOf(file));
+        }
+        return FileVisitResult.SKIP_SUBTREE;
     }
 
     private List<String> archived = new ArrayList<>();
