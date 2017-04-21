@@ -5,31 +5,12 @@ import java.util.AbstractList;
 import java.util.Collection;
 import java.util.List;
 
-/* 
-Несмотря на то что наше дерево является потомком класса AbstractList, это не список в привычном понимании.
-В частности нам недоступны принимающие в качестве параметра индекс элемента.
-Такие методы необходимо переопределить и бросить новое исключение типа UnsupportedOperationException.
-
-Вот их список:
-public String get(int index)
-public String set(int index, String element)
-public void add(int index, String element)
-public String remove(int index)
-public List<String> subList(int fromIndex, int toIndex)
-protected void removeRange(int fromIndex, int toIndex)
-public boolean addAll(int index, Collection<? extends String> c)
 
 
-Требования:
-1. При попытке вызвать метод get(int index) должно возникать исключение типа UnsupportedOperationException.
-2. При попытке вызвать метод set(int index, String element) должно возникать исключение типа UnsupportedOperationException.
-3. При попытке вызвать метод add(int index, String element) должно возникать исключение типа UnsupportedOperationException.
-4. При попытке вызвать метод String remove(int index) должно возникать исключение типа UnsupportedOperationException.
-5. При попытке вызвать метод subList(int fromIndex, int toIndex) должно возникать исключение типа UnsupportedOperationException.
-6. При попытке вызвать метод removeRange(int fromIndex, int toIndex) должно возникать исключение типа UnsupportedOperationException.
-7. При попытке вызвать метод addAll(int index, Collection c) должно возникать исключение типа UnsupportedOperationException.
-*/
-public class CustomTree extends AbstractList<String> implements Cloneable, Serializable{
+
+public class CustomTree extends AbstractList<String> implements Cloneable, Serializable {
+    Entry<String> root;
+
     public static void main(String[] args) {
         List<String> list = new CustomTree();
         for (int i = 1; i < 16; i++) {
@@ -38,6 +19,33 @@ public class CustomTree extends AbstractList<String> implements Cloneable, Seria
         //System.out.println("Expected 3, actual is " + ((CustomTree) list).getParent("8"));
         list.remove("5");
         //System.out.println("Expected null, actual is " + ((CustomTree) list).getParent("11"));
+    }
+
+    static class Entry<T> implements Serializable {
+        String elementName;
+        int lineNumber;
+        boolean availableToAddLeftChildren, availableToAddRightChildren;
+        Entry<T> parent, leftChild, rightChild;
+
+        public Entry(String element) {
+            this.elementName = element;
+            this.availableToAddLeftChildren = true;
+            this.availableToAddRightChildren = true;
+        }
+
+        void checkChildren() {
+            if (leftChild != null) {
+                this.availableToAddLeftChildren = false;
+            }
+            if (rightChild != null) {
+                this.availableToAddRightChildren = false;
+            }
+        }
+
+        boolean isAvailableToAddChildren() {
+            return availableToAddLeftChildren | availableToAddRightChildren;
+        }
+
     }
 
     @Override
