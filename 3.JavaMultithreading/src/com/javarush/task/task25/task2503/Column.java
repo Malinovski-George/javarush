@@ -1,39 +1,12 @@
 package com.javarush.task.task25.task2503;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-public enum Column implements Columnable {
-    Customer("Customer") {
-    },
-    BankName("Bank Name") {
-    },
-    AccountNumber("Account Number") {
-    },
-    Amount("Available Amount") {
-    };
-
-    @Override
-    public String getColumnName() {
-        return this.columnName;
-    }
-
-    @Override
-    public boolean isShown() {
-
-        if (realOrder[this.ordinal()] == -1) {
-            return false;
-        } else
-
-            return true;
-    }
-
-    @Override
-    public void hide() {
-
-        realOrder[this.ordinal()] = -1;
-
-    }
+public enum Column implements Columnable{
+    Customer("Customer"),
+    BankName("Bank Name"),
+    AccountNumber("Account Number"),
+    Amount("Available Amount");
 
     private String columnName;
 
@@ -68,20 +41,31 @@ public enum Column implements Columnable {
         }
     }
 
-    /**
-     * Вычисляет и возвращает список отображаемых колонок в сконфигурированом порядке (см. метод configureColumns)
-     * Используется поле realOrder.
-     *
-     * @return список колонок
-     */
     public static List<Column> getVisibleColumns() {
-        List<Column> result = new LinkedList<>();
-        for (Column column : Column.values()
-                ) {
-            if (column.isShown()) {
-                result.add(column);
-            }
+        List<Column> result = new ArrayList<>();
+        Map<Integer, Column> map = new TreeMap<>();
+        for (int i = 0; i < realOrder.length; i++) {
+            map.put(realOrder[i], Column.values()[i]);
+        }
+        for (Map.Entry<Integer, Column> entry : map.entrySet()){
+            if (entry.getKey() != -1)
+                result.add(entry.getValue());
         }
         return result;
+    }
+
+    @Override
+    public String getColumnName() {
+        return columnName;
+    }
+
+    @Override
+    public boolean isShown() {
+        return realOrder[ordinal()] !=-1;
+    }
+
+    @Override
+    public void hide() {
+        realOrder[ordinal()] = -1;
     }
 }

@@ -10,6 +10,7 @@ package com.javarush.task.task25.task2503;
 Создавать дополнительные поля нельзя.
 Метод main не участвует в тестировании.
 */
+
 public class Solution {
     /**
      * Output:
