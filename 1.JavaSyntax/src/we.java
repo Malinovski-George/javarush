@@ -1,28 +1,19 @@
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-/**
- * Created by Gia on 02.03.2017.
- */
 public class we {
-
-    public static void main(String[] args) {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            System.out.print(i + " : ");
-            list.add(i);
-            int sleep = getSleep(i);
-            System.out.println(sleep);
+    public static void main(String[] args) throws Exception { //напишите тут ваш код
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int a = 0;
+        double b = 0;
+        double k = 0;
+        while (a != -1) {
+            a = Integer.parseInt(br.readLine());
+            b += a;
+            k += 1;
         }
+        b = b + 1;
+        k = b / (k - 1);
+        System.out.println(k);
     }
-
-    public static int getSleep(int i) {
-
-        int sleep = 0;
-
-            sleep = 500 - (200 * (i - 1) / 9);
-
-        return sleep;
-    }
-
 }
-
