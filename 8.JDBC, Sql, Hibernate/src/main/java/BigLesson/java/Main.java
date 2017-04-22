@@ -63,7 +63,7 @@ public final class Main {
                 "FOREIGN KEY(PositionID) REFERENCES Positions(ID)");
 
 
-       statement.execute("ALTER TABLE Employees ADD CONSTRAINT FK_Employees_DepartmentID\n" +
+        statement.execute("ALTER TABLE Employees ADD CONSTRAINT FK_Employees_DepartmentID\n" +
                 "FOREIGN KEY(DepartmentID) REFERENCES Departments(ID)\n");
 
 
@@ -71,8 +71,8 @@ public final class Main {
                 "SET\n" +
                 "  PositionID=(SELECT ID FROM Positions WHERE Name=e.Position),\n" +
                 "  DepartmentID=(SELECT ID FROM Departments WHERE Name=e.Department)\n"
-                );
-      //  statement.execute();
+        );
+        //  statement.execute();
 
     }
 
@@ -174,6 +174,42 @@ public final class Main {
             GROUP BY DepartmentID,PositionID -- группировка по полям DepartmentID,PositionID
             */
 
+
+
+          /*
+           здесьобъединяем таблицу с собой показываем сотр с сотрудником принятым на работу после него
+           SELECT
+            e1.ID EmpID1,
+            e1.Name EmpName1,
+            e2.ID EmpID2,
+            e2.Name EmpName2
+            FROM Employees e1
+            LEFT JOIN Employees e2 ON e1.ID=e2.ID+1*/
+
+
+           /* SELECT dep.ID,dep.Name,emp.ID,emp.Name
+            FROM Employees emp
+
+                    JOIN
+            (
+                    SELECT MAX(ID) MaxEmployeeID
+            FROM Employees
+            GROUP BY DepartmentID
+            ) lastEmp
+            ON emp.ID=lastEmp.MaxEmployeeID
+
+            RIGHT JOIN Departments dep ON emp.DepartmentID=dep.ID -- все данные Departments
+
+            */
+
+
+
+
+
+
+
+
+
             while (rs.next()) {
                 String nameFull = rs.getString("FullName");
                 Date date = rs.getDate("Дата приема");
@@ -197,9 +233,7 @@ public final class Main {
     }
 
     private static void createTables(Statement statement) throws SQLException {
-        // String sttm =  "CREATE TABLE Positions(ID int IDENTITY(1,1) NOT NULL CONSTRAINT PK_Positions PRIMARY KEY, Name nvarchar(30) NOT NULL";
         statement.execute("use test");
-
         statement.execute("CREATE TABLE Positions(\n" +
                 "  ID int UNIQUE NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
                 "  Name varchar(30) NOT NULL\n" +
@@ -208,7 +242,6 @@ public final class Main {
                 "  ID int UNIQUE NOT NULL AUTO_INCREMENT PRIMARY KEY,\n" +
                 "  Name nvarchar(30) NOT NULL\n" +
                 ")");
-
 
         String sttm = "CREATE TABLE IF NOT EXISTS test.employees (" +
                 "id INT NOT NULL AUTO_INCREMENT, " +
@@ -222,33 +255,7 @@ public final class Main {
                 "Department nvarchar(30)," +
                 "PRIMARY KEY (id))";
 
-         /*       "CONSTRAINT FOREIGN KEY(DepartmentID) REFERENCES test.Departments(ID),\n" +
-                "CONSTRAINT FOREIGN KEY(PositionID) REFERENCES test.Positions(ID),\n" +
-                "CONSTRAINT FOREIGN KEY (ManagerID) REFERENCES test.Employees(ID))";
-        */
-
-       /* String sttm = "CREATE TABLE Employees(\n" +
-                "  ID int NOT NULL AUTO_INCREMENT,\n" +
-                "  Name varchar(30),\n" +
-
-                "  Email varchar(30),\n" +
-                "  PositionID int,\n" +
-                "  DepartmentID int,\n" +
-
-                "  ManagerID int,\n" +
-                "CONSTRAINT PK_Employees PRIMARY KEY (ID),\n" +
-                "CONSTRAINT FK_Employees_DepartmentID FOREIGN KEY(DepartmentID) REFERENCES Departments(ID),\n" +
-                "CONSTRAINT FK_Employees_PositionID FOREIGN KEY(PositionID) REFERENCES Positions(ID),\n" +
-                "CONSTRAINT FK_Employees_ManagerID FOREIGN KEY (ManagerID) REFERENCES Employees(ID),\n" +
-                "CONSTRAINT UQ_Employees_Email UNIQUE(Email),\n" +
-                "CONSTRAINT CK_Employees_ID CHECK(ID BETWEEN 1000 AND 1999),\n" +
-                "INDEX IDX_Employees_Name(Name)\n" +
-                ")";
-*/
-
         statement.execute(sttm);
-
-
         System.out.println("таблица создана");
     }
 
@@ -357,9 +364,8 @@ public final class Main {
     private static void deleteSomethingById(Statement statement, int id) throws SQLException {
         System.out.println("Delete all person who id = " + id);
         int rowsDeleted = statement.executeUpdate("DELETE FROM employees WHERE id = " + id + ";");
-        System.out.printf("%d rows deleted.\n" , rowsDeleted);
+        System.out.printf("%d rows deleted.\n", rowsDeleted);
         System.out.println("---------result----------");
     }
-
 
 }
