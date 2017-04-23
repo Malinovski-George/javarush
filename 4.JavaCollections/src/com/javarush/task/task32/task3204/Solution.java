@@ -37,7 +37,6 @@ public class Solution {
             //    System.out.print(lowerLetters + ".");
             }
 
-
             for (int i = 0; i < 2; i++) {
                 byte capitalLetters = (byte) (97 + random.nextInt(26));
                 characters.add(capitalLetters);
@@ -48,7 +47,6 @@ public class Solution {
                 if (count < 8) {
                     byteArrayOutputStream.write(letter);
                     count++;
-
                 }
             }
           //  System.out.println();
