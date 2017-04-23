@@ -202,14 +202,6 @@ public final class Main {
 
             */
 
-
-
-
-
-
-
-
-
             while (rs.next()) {
                 String nameFull = rs.getString("FullName");
                 Date date = rs.getDate("Дата приема");
