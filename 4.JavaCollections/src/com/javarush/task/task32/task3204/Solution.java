@@ -9,34 +9,51 @@ import java.util.Random;
 */
 public class Solution {
     public static void main(String[] args) {
-        ByteArrayOutputStream password = getPassword();
-        System.out.println(password.toString());
+        for (int i = 0; i < 1000; i++) {
+            ByteArrayOutputStream password = getPassword();
+            System.out.println(password.toString().length() + "   " + password.toString());
+        }
     }
 
     public static ByteArrayOutputStream getPassword() {
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        Random random = new Random();
-        HashSet<Byte> characters = new HashSet<>();
+        ByteArrayOutputStream byteArrayOutputStream;
+        do {
+            byteArrayOutputStream = new ByteArrayOutputStream();
+            Random random = new Random();
+            HashSet<Byte> characters = new HashSet<>();
 
-        // digits
-        for (int i = 0; i < 3; i++) {
-            characters.add((byte)(48 + random.nextInt(10)));
-        }
 
-        // lower letters
-        for (int i = 0; i < 3; i++) {
-            characters.add((byte)(65 + random.nextInt(26)));
-        }
+            for (int i = 0; i < 3; i++) {
+                byte digits = (byte) (48 + random.nextInt(10));
+                characters.add(digits);
+             //   System.out.print(digits + ".");
+            }
 
-        // capital letters
-        for (int i = 0; i < 2; i++) {
-            characters.add((byte) (97 + random.nextInt(26)));
-        }
 
-        for (Byte letter : characters) {
-            byteArrayOutputStream.write(letter);
-        }
+            for (int i = 0; i < 3; i++) {
+                byte lowerLetters = (byte) (65 + random.nextInt(26));
+                characters.add(lowerLetters);
+            //    System.out.print(lowerLetters + ".");
+            }
+
+
+            for (int i = 0; i < 2; i++) {
+                byte capitalLetters = (byte) (97 + random.nextInt(26));
+                characters.add(capitalLetters);
+            //    System.out.print(capitalLetters + ".");
+            }
+            int count = 0;
+            for (Byte letter : characters) {
+                if (count < 8) {
+                    byteArrayOutputStream.write(letter);
+                    count++;
+
+                }
+            }
+          //  System.out.println();
+          //  System.out.println(byteArrayOutputStream.size());
+        } while (byteArrayOutputStream.size() != 8);
 
         return byteArrayOutputStream;
     }
