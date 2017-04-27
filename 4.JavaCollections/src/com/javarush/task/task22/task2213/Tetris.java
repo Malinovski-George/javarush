@@ -6,19 +6,15 @@ package com.javarush.task.task22.task2213;
 public class Tetris {
 
     public static Tetris game;
-
     private Field field;
-
-    public Figure getFigure() {
-        return figure;
-    }
-
-    public Field getField() {
-        return field;
-    }
-
     private Figure figure;
 
+    public void run() {
+    }
+
+    public void step() {
+
+    }
 
     public static void main(String[] args) {
 
@@ -26,10 +22,11 @@ public class Tetris {
         game.run();
     }
 
-    public void run() {
+    public Figure getFigure() {
+        return figure;
     }
 
-    public void step() {
-
+    public Field getField() {
+        return field;
     }
 }
