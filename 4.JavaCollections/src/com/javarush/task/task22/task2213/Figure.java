@@ -28,16 +28,39 @@ public class Figure {
         return matrix;
     }
 
-    void left() {
+    public void left()
+    {
+        x--;
+        if (!isCurrentPositionAvailable())
+            x++;
     }
 
-    void right() {
+    /**
+     * Двигаем фигурку вправо.
+     * Проверяем не вылезла ли она за границу поля и/или не залезла ли на занятые клетки.
+     */
+    public void right()
+    {
+        x++;
+        if (!isCurrentPositionAvailable())
+            x--;
     }
 
-    void down() {
+    /**
+     * Двигаем фигурку вверх.
+     * Используется, если фигурка залезла на занятые клетки.
+     */
+    public void up()
+    {
+        y--;
     }
 
-    void up() {
+    /**
+     * Двигаем фигурку вниз.
+     */
+    public void down()
+    {
+        y++;
     }
 
     void rotate() {
