@@ -1,5 +1,8 @@
 package com.javarush.task.task25.task2515;
 
+import static java.lang.Math.max;
+import static java.lang.Math.sqrt;
+
 /**
  * Created by Gia on 30.04.2017.
  */
@@ -47,11 +50,20 @@ public abstract class BaseObject {
         this.isAlive = true;
     }
 
-    void move() {
+    public void move() {
 
     }
 
-    void draw() {
+    public void draw() {
     }
+
+    public void die() {
+        isAlive = false;
+    }
+
+    public boolean isIntersect(BaseObject o) {
+        return sqrt((Math.pow(this.x - o.x, 2)) + Math.pow(this.y - o.y, 2)) < max(this.radius, o.radius);
+    }
+
 
 }
