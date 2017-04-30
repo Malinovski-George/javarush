@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Gia on 30.04.2017.
  */
 public class Space {
-
+    public static Space game;
     private int width;
     private int height;
     private SpaceShip ship;
