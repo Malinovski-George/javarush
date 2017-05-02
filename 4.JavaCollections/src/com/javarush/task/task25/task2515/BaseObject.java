@@ -82,7 +82,7 @@ public abstract class BaseObject {
     /**
      * Проверяем - пересекаются ли переданный(o) и наш(this) объекты.
      */
-    public boolean isIntersect(BaseObject o) {
+    public boolean isIntersec(BaseObject o) {
         double dx = x - o.x;
         double dy = y - o.y;
         double destination = Math.sqrt(dx * dx + dy * dy);
