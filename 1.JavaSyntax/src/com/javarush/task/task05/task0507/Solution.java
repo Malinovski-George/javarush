@@ -8,20 +8,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class Solution {
-    public static void main(String[] args) throws Exception {
-        //напишите тут ваш код
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int i = 0;
-        double count = 0.0;
-        double summ = 0.0;
-        while ((i = Integer.parseInt(reader.readLine())) != -1) {
-            count++;
-            summ += i;
+    public static void main(final String[] args) throws Exception {
+        final BufferedReader reader  = new BufferedReader(new InputStreamReader(System.in));
+        int sum = 0;
+        int counter = 0;
+        while (true) {
+            final int number =  Integer.parseInt(reader.readLine());
+            if (number == -1) break;
+            sum += number;
+            counter++;
         }
-
-        if (summ > 0) System.out.println(summ/count);
-
+        System.out.println((double)sum/counter);
     }
 }
-
