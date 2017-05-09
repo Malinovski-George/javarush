@@ -2,8 +2,11 @@ package com.javarush.task.task20.task2008;
 
 import java.io.*;
 
-/* 
+/*
 Как сериализовать Singleton?
+Два десериализованных объекта singleton и singleton1 имеют разные ссылки в памяти, а должны иметь одинаковые.
+В класс Singleton добавь один метод (погуглите), чтобы после десериализации ссылки на объекты были равны.
+Метод main не участвует в тестировании.
 */
 public class Solution implements Serializable {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -37,13 +40,9 @@ public class Solution implements Serializable {
         System.out.println("Object reference check : " + singleton1);
     }
 
+
     public static class Singleton implements Serializable {
         private static Singleton ourInstance;
-
-        protected Object readResolve() {
-            return getInstance();
-        }
-
 
         public static Singleton getInstance() {
             if (ourInstance == null) {
@@ -54,53 +53,9 @@ public class Solution implements Serializable {
 
         private Singleton() {
         }
+
+        private Object readResolve() throws ObjectStreamException {
+            return getInstance();
+        }
     }
 }
-/*
-import java.io.*;
-
-public class Solution implements Serializable
-{
-    private String str = "aaa";
-
-    public String toString() { return str; }
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException
-    {
-        PipedOutputStream pos = new PipedOutputStream();
-        PipedInputStream pis = new PipedInputStream(pos);
-        ObjectOutputStream out = new ObjectOutputStream(pos);
-        ObjectInputStream in = new ObjectInputStream(pis);
-
-        Solution s = new Solution();
-
-        out.writeObject(s);
-        out.flush();
-
-        Object o = in.readObject(); // <- Тут получается объект, возвращённый readResolve
-
-        if(o instanceof Solution)
-        {
-            System.out.println("Solution:" + o);
-        }
-        else if(o instanceof Integer)
-        {
-            System.out.println("Integer:" + o);
-        }
-        else
-        {
-            System.out.println("?????");
-        }
-
-        in.close();
-        out.close();
-    }
-
-   */
-/* private Object readResolve() throws ObjectStreamException
-    {
-        return Integer.valueOf(1293);  // <- Подменяем объект на Integer вместо Solution
-    }*//*
-
-
-}*/

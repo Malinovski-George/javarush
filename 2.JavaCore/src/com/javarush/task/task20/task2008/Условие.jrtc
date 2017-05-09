@@ -1,7 +1,16 @@
-<div class="wdghtml" taskKey="com.javarush.task.task20.task2008">
-<h3>Как сериализовать Singleton?</h3>
-<p>Два десериализованных объекта <mark class="green">singleton</mark> и <mark class="green">singleton1</mark> имеют разные ссылки в памяти, а должны иметь одинаковые.<br />
-В класс <span class="text-corporate"><strong>Singleton</strong></span> добавь один метод (<em>погуглите</em>), чтобы после десериализации ссылки на объекты были равны.<br />
-Метод <mark>main</mark> не участвует в тестировании.</p>
+taskKey="com.javarush.task.task20.task2008"
 
-</div>
+Как сериализовать Singleton?
+
+Два десериализованных объекта singleton и singleton1 имеют разные ссылки в памяти, а должны иметь одинаковые.
+В класс Singleton добавь один метод (погуглите), чтобы после десериализации ссылки на объекты были равны.
+Метод main не участвует в тестировании.
+
+
+Требования:
+1.	Класс Solution.Singleton должен поддерживать интерфейс Serializable.
+2.	В классе Solution.Singleton должен быть реализован метод readResolve без параметров.
+3.	Метод readResolve должен возвращать синглтон (ourInstance).
+4.	Метод readResolve должен быть приватным.
+
+
