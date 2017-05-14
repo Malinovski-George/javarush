@@ -1,14 +1,14 @@
-
-
         <!DOCTYPE hibernate-mapping PUBLIC
                 "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
                 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping  package="Hibernate_lesson1">
 <class name="Employee">
+
     <id name="employee_id">
         <generator class="native"/>
     </id>
+
     <property name="fio"/>
     <!--
     Здесь также нужно указать, что связь между сотрудником и отделом обспечивается за счет

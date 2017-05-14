@@ -4,10 +4,13 @@
 
 <hibernate-mapping package="Hibernate_lesson1">
     <class name="Department">
+
         <id name="department_id">
             <generator class="native" />
         </id>
+
         <property name="caption" />
+
         <set name="employies">
             <!-- для организации связи между таблицами, нужно поместить
             в класс зависящий от главной таблицы внешний ключ -->
