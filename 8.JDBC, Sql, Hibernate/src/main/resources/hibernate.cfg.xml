@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE hibernate-configuration SYSTEM "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-<hibernate-configuration>
+<hibernate-configuration >
     <session-factory>
 
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
@@ -22,6 +22,9 @@
         <mapping resource="Department.cfg.xml"/>
         <mapping resource="Employee.cfg.xml"/>
 
+        <mapping resource="Bus.hbm.xml"/>
+        <mapping resource="Driver.hbm.xml"/>
+        <mapping resource="Route.hbm.xml"/>
 
 
     </session-factory>

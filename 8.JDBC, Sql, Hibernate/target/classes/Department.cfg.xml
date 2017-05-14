@@ -11,7 +11,7 @@
 
         <property name="caption" />
 
-        <set name="employies">
+        <set name="employies" cascade="all" inverse="true">
             <!-- для организации связи между таблицами, нужно поместить
             в класс зависящий от главной таблицы внешний ключ -->
             <key column="fk_department_id" />

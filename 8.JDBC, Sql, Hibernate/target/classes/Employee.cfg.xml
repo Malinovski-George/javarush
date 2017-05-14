@@ -15,6 +15,6 @@
     поля fk_department_id помещаемого именно в эту таблицу (сотрудника)
     Ну а модификатор  not-null="true" говорит, что сотрудники не могут существовать вне отдела
     -->
-    <many-to-one name="department" class="Department" column="fk_department_id" not-null="true"/>
+    <many-to-one name="department" class="Department" column="fk_department_id" not-null="true" cascade="all"/>
 </class>
 </hibernate-mapping>

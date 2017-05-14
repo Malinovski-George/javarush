@@ -29,11 +29,11 @@ public class main {
         tom.setDepartment(managers);
         ron.setDepartment(managers);
 
-        ses.saveOrUpdate(managers);
+      //  ses.saveOrUpdate(managers);
         ses.saveOrUpdate(designers);
         ses.saveOrUpdate(jim);
-        ses.saveOrUpdate(tom);
-        ses.saveOrUpdate(ron);
+     //   ses.saveOrUpdate(tom);
+     //   ses.saveOrUpdate(ron);
 
         ses.getTransaction().commit();
 
