@@ -10,8 +10,8 @@
         <property column="name" name="name" type="java.lang.String"/>
         <property column="number" name="number" type="java.lang.Integer"/>
 
-        <set name="busses" lazy="false">
-            <key column="route_id"/>
+        <set name="busses" table="BusRoute" lazy="false">
+            <key column="route_ID"/>
             <one-to-many class="Bus"/>
         </set>
 

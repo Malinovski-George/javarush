@@ -11,8 +11,10 @@
 
         <set name="drivers" table="busDriver" lazy="false">
             <key column="bus_id"/>
-            <many-to-many column="driver_id" class="Driver"/>
+            <many-to-many column="driver" class="Driver"/>
         </set>
+
+        <many-to-one name="route_id" class="Route" column="route_ID"/>
 
     </class>
 </hibernate-mapping>
