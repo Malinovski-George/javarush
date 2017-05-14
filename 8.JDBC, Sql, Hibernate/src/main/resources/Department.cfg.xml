@@ -1,0 +1,18 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="Hibernate_lesson1">
+    <class name="Department">
+        <id name="department_id">
+            <generator class="native" />
+        </id>
+        <property name="caption" />
+        <set name="employies">
+            <!-- для организации связи между таблицами, нужно поместить
+            в класс зависящий от главной таблицы внешний ключ -->
+            <key column="fk_department_id" />
+            <one-to-many class="Employee" />
+        </set>
+    </class>
+</hibernate-mapping>
