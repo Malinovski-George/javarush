@@ -1,17 +1,18 @@
 package com.javarush.task.task33.task3310.strategy;
 
 /**
- * Created by Gia on 16.05.2017.
+ * Created by a.zinov on 22.05.2017.
  */
 public interface StorageStrategy {
 
-        boolean containsKey(Long key);
+    public boolean containsKey(Long key);
 
-        boolean containsValue(String value);
+    public boolean containsValue(String value);
 
-        void put(Long key, String value);
+    public void put(Long key, String value);
 
-        Long getKey(String value);
+    public Long getKey(String value);
 
-        String getValue(Long key);
-    }
+    public String getValue(Long key);
+
+}
