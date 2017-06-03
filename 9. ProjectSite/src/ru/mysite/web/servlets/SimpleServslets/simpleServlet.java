@@ -14,6 +14,7 @@ import java.io.IOException;
 public class simpleServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-response.getWriter().write("ok. i'am here");
+request.getRequestDispatcher("index2.jsp").forward(request, response);
+
     }
 }

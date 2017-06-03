@@ -10,7 +10,7 @@
   <head>
     <title>$Title$</title>
   </head>
-  <body>
-  $ENDdfsdfsdf
+  <body>  <a href="index2.jsp">second page</a>
+  ${request}
   </body>
 </html>
